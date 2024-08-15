@@ -9,14 +9,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDriveNou;
 import org.firstinspires.ftc.teamcode.NEDRobot.util.Encoder;
 
 @Config
 @TeleOp(name = "TestDrive1")
 public class TestDrive1 extends LinearOpMode {
 
-    private SampleMecanumDrive drive1;
+    private SampleMecanumDriveNou drive1;
     private Encoder leftEncoder;
     private Encoder rightEncoder;
     private Encoder frontEncoder;
@@ -26,7 +26,7 @@ public class TestDrive1 extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        drive1 = new SampleMecanumDrive(hardwareMap);
+        drive1 = new SampleMecanumDriveNou(hardwareMap);
         drive1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "FS"));

@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.NEDRobot.Vision.AprilTagDetectionPipeline;
-import org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDriveNou;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 @Config
 @TeleOp
 public class TestApril extends LinearOpMode {
-    public SampleMecanumDrive drive;
+    public SampleMecanumDriveNou drive;
     private GamepadEx GamepadEx1;
     private FtcDashboard ftcDashboard;
 
@@ -60,7 +60,7 @@ public class TestApril extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         FtcDashboard.getInstance().startCameraStream(camera, 30);
 
-        drive=new SampleMecanumDrive(hardwareMap);
+        drive=new SampleMecanumDriveNou(hardwareMap);
         GamepadEx1 = new GamepadEx(gamepad1);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());

@@ -1,17 +1,5 @@
 package org.firstinspires.ftc.teamcode.NEDRobot.drive;
 
-import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.MAX_ACCEL;
-import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.MAX_ANG_ACCEL;
-import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.MAX_ANG_VEL;
-import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.MAX_VEL;
-import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.MOTOR_VELO_PID;
-import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.RUN_USING_ENCODER;
-import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.TRACK_WIDTH;
-import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.encoderTicksToInches;
-import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.kA;
-import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.kStatic;
-import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.kV;
-
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -50,15 +38,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.MAX_ACCEL;
+import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.MAX_ANG_ACCEL;
+import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.MAX_ANG_VEL;
+import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.MAX_VEL;
+import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.MOTOR_VELO_PID;
+import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.RUN_USING_ENCODER;
+import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.TRACK_WIDTH;
+import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.encoderTicksToInches;
+import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.kA;
+import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.kStatic;
+import static org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants.kV;
+
 /*
  * Simple mecanum drive hardware implementation for REV hardware.
  */
 @Config
-public class SampleMecanumDrive extends MecanumDrive {
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);//18 0.7
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);//18 0.5
+public class SampleMecanumDriveNou extends MecanumDrive {
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
 
-    public static double LATERAL_MULTIPLIER = 1;//1.8
+    public static double LATERAL_MULTIPLIER = 1;
 
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
@@ -74,43 +74,31 @@ public class SampleMecanumDrive extends MecanumDrive {
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
     private List<DcMotorEx> motors;
 
-    public IMU imu;
+    private IMU imu;
     private VoltageSensor batteryVoltageSensor;
 
-
-    public static boolean THREAD_IMU = true;
-    public static double angleFromModule = 0;
-    public static double velocityFromModule = 0;
     private List<Integer> lastEncPositions = new ArrayList<>();
     private List<Integer> lastEncVels = new ArrayList<>();
 
-    public SampleMecanumDrive(HardwareMap hardwareMap) {
+    public SampleMecanumDriveNou(HardwareMap hardwareMap) {
         super(kV, kA, kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
 
-       // PhotonCore.enable();
-
         follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,
-                new Pose2d(0.5, 0.5, Math.toRadians(5.0)), 0.1);
+                new Pose2d(0.5, 0.5, Math.toRadians(5.0)), 0.5);
 
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
 
         for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
-            module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
-        }
-        if(!THREAD_IMU) {
-
-            imu = hardwareMap.get(IMU.class, "imu");
-            IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
-            imu.initialize(parameters);//aici trb comentariu*/
-
-        } else {
-            angleFromModule = 0;
-            velocityFromModule = 0;
+            module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
         // TODO: adjust the names of the following hardware devices to match your configuration
+        imu = hardwareMap.get(IMU.class, "imu");
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                DriveConstants.LOGO_FACING_DIR, DriveConstants.USB_FACING_DIR));
+        imu.initialize(parameters);
 
         leftFront = hardwareMap.get(DcMotorEx.class, "FS");
         leftRear = hardwareMap.get(DcMotorEx.class, "SS");
@@ -134,7 +122,6 @@ public class SampleMecanumDrive extends MecanumDrive {
         if (RUN_USING_ENCODER && MOTOR_VELO_PID != null) {
             setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID);
         }
-
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
         // TODO: reverse any motors using DcMotor.setDirection()
@@ -143,8 +130,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         List<Integer> lastTrackingEncVels = new ArrayList<>();
 
         // TODO: if desired, use setLocalizer() to change the localization method
-         setLocalizer(new TwoWheelTrackingLocalizer(hardwareMap,this));
-
+        setLocalizer(new TwoWheelTrackingLocalizerNou(hardwareMap,this));
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(
                 follower, HEADING_PID, batteryVoltageSensor,
@@ -231,6 +217,7 @@ public class SampleMecanumDrive extends MecanumDrive {
             motor.setMode(runMode);
         }
     }
+
     public void setZeroPowerBehavior(DcMotor.ZeroPowerBehavior zeroPowerBehavior) {
         for (DcMotorEx motor : motors) {
             motor.setZeroPowerBehavior(zeroPowerBehavior);
@@ -305,18 +292,12 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     @Override
     public double getRawExternalHeading() {
-        if(!THREAD_IMU)
-        return 0;//imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-        else
-            return angleFromModule;
+        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
     }
 
     @Override
     public Double getExternalHeadingVelocity() {
-        if(!THREAD_IMU)
-        return (double) 0;//imu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;//(double) 0;
-        else
-            return velocityFromModule;
+        return (double) imu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
     }
 
     public static TrajectoryVelocityConstraint getVelocityConstraint(double maxVel, double maxAngularVel, double trackWidth) {

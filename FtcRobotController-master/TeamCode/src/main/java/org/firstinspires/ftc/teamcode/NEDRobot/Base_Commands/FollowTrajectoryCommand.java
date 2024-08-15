@@ -3,14 +3,14 @@ package org.firstinspires.ftc.teamcode.NEDRobot.Base_Commands;
 import com.acmerobotics.roadrunner.drive.DriveSignal;
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDriveNou;
 import org.firstinspires.ftc.teamcode.NEDRobot.trajectorysequence.TrajectorySequence;
 
 public class FollowTrajectoryCommand extends CommandBase {
-    private SampleMecanumDrive drive;
+    private SampleMecanumDriveNou drive;
     private TrajectorySequence traj;
 
-    public FollowTrajectoryCommand(SampleMecanumDrive sampleMecanumDrive, TrajectorySequence trajectorySequence) {
+    public FollowTrajectoryCommand(SampleMecanumDriveNou sampleMecanumDrive, TrajectorySequence trajectorySequence) {
         drive = sampleMecanumDrive;
         traj = trajectorySequence;
     }

@@ -7,7 +7,6 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -18,12 +17,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.NEDRobot.Base_Commands.ActiveStateCommand;
-import org.firstinspires.ftc.teamcode.NEDRobot.Base_Commands.BucketPosCommand;
 import org.firstinspires.ftc.teamcode.NEDRobot.Base_Commands.CapacPosCommand;
 import org.firstinspires.ftc.teamcode.NEDRobot.Base_Commands.ExtendoPosCommand;
-import org.firstinspires.ftc.teamcode.NEDRobot.Base_Commands.IntakePosCommand;
-import org.firstinspires.ftc.teamcode.NEDRobot.Base_Commands.LiftPosCommand;
-import org.firstinspires.ftc.teamcode.NEDRobot.Base_Commands.PitchPosCommand;
 import org.firstinspires.ftc.teamcode.NEDRobot.Base_Commands.WristOuttakePosCommand;
 import org.firstinspires.ftc.teamcode.NEDRobot.Base_Commands.WristPosCommand;
 import org.firstinspires.ftc.teamcode.NEDRobot.Commands.DepositCommand;
@@ -33,7 +28,7 @@ import org.firstinspires.ftc.teamcode.NEDRobot.Commands.TransferCommand;
 import org.firstinspires.ftc.teamcode.NEDRobot.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.NEDRobot.Subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.NEDRobot.Subsystems.Obot;
-import org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDriveNou;
 import org.firstinspires.ftc.teamcode.photoncore.Neutrino.RevColorSensor.RevColorSensorV3Ex;
 import org.firstinspires.ftc.teamcode.photoncore.PhotonCore;
 
@@ -56,7 +51,7 @@ public class CommandTeleopOffSeason extends CommandOpMode {
 
     private double distance_to_intake = 1.2;
     private double loopTime = 0;
-    private SampleMecanumDrive drive;
+    private SampleMecanumDriveNou drive;
     double leftSen, rightSen;
     boolean Scoring = false;
     boolean Outtaking = false;
@@ -91,7 +86,7 @@ public class CommandTeleopOffSeason extends CommandOpMode {
         obotV2.liftSubsystem.update(LiftSubsystem.AngleState.OUT);
         obotV2.liftSubsystem.update(LiftSubsystem.TriggerState.OPEN);
         obotV2.liftSubsystem.update(LiftSubsystem.WristState.HORIZONTAL_TRANSFER);
-        drive = new SampleMecanumDrive(hardwareMap);
+        drive = new SampleMecanumDriveNou(hardwareMap);
         button = () -> gamepad1.start;
         button1 = () ->gamepad1.start;
         GamepadEx1 = new GamepadEx(gamepad1);

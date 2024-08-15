@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.NEDRobot.Autonumous;
 
-import static org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDrive.getAccelerationConstraint;
-import static org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDrive.getVelocityConstraint;
+import static org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDriveNou.getAccelerationConstraint;
+import static org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDriveNou.getVelocityConstraint;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -21,7 +21,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.NEDRobot.Base_Commands.BucketPosCommand;
-import org.firstinspires.ftc.teamcode.NEDRobot.Base_Commands.IntakePosCommand;
 import org.firstinspires.ftc.teamcode.NEDRobot.Base_Commands.PitchPosCommand;
 import org.firstinspires.ftc.teamcode.NEDRobot.Base_Commands.TriggerPosCommand;
 import org.firstinspires.ftc.teamcode.NEDRobot.Base_Commands.WristOuttakePosCommand;
@@ -32,7 +31,7 @@ import org.firstinspires.ftc.teamcode.NEDRobot.Subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.NEDRobot.Subsystems.Obot;
 import org.firstinspires.ftc.teamcode.NEDRobot.Vision.CameraRight;
 import org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants;
-import org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDriveNou;
 import org.firstinspires.ftc.teamcode.NEDRobot.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.NEDRobot.utilMotion.AsymmetricMotionProfile;
 import org.firstinspires.ftc.teamcode.NEDRobot.utilMotion.ProfileConstraints;
@@ -65,7 +64,7 @@ public class BlueFarBeleaua extends LinearOpMode {
 
     private final Obot obot = Obot.getInstance();
     private FtcDashboard ftcDashboard;
-    public SampleMecanumDrive drive;
+    public SampleMecanumDriveNou drive;
     public CameraRight camera;
     public int position;
     public VoltageSensor voltageSensor;
@@ -121,8 +120,8 @@ public class BlueFarBeleaua extends LinearOpMode {
         //state =new ProfileState();
 
         CommandScheduler.getInstance().reset();
-        drive = new SampleMecanumDrive(hardwareMap);
-        SampleMecanumDrive.THREAD_IMU=true;
+        drive = new SampleMecanumDriveNou(hardwareMap);
+        SampleMecanumDriveNou.THREAD_IMU=true;
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         camera = new CameraRight(hardwareMap);

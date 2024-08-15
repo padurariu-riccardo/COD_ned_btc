@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.NEDRobot.Autonumous;
 
-import static org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDrive.getAccelerationConstraint;
-import static org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDrive.getVelocityConstraint;
+import static org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDriveNou.getAccelerationConstraint;
+import static org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDriveNou.getVelocityConstraint;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -31,7 +31,7 @@ import org.firstinspires.ftc.teamcode.NEDRobot.Subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.NEDRobot.Subsystems.Obot;
 import org.firstinspires.ftc.teamcode.NEDRobot.Vision.CameraREDLeft;
 import org.firstinspires.ftc.teamcode.NEDRobot.drive.DriveConstants;
-import org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.NEDRobot.drive.SampleMecanumDriveNou;
 import org.firstinspires.ftc.teamcode.NEDRobot.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.NEDRobot.utilMotion.AsymmetricMotionProfile;
 import org.firstinspires.ftc.teamcode.NEDRobot.utilMotion.ProfileConstraints;
@@ -67,7 +67,7 @@ public class RedFarBeleaua extends LinearOpMode {
 
     private final Obot obot = Obot.getInstance();
     private FtcDashboard ftcDashboard;
-    public SampleMecanumDrive drive;
+    public SampleMecanumDriveNou drive;
     public CameraREDLeft camera;
     public int position;
     public VoltageSensor voltageSensor;
@@ -134,8 +134,8 @@ public class RedFarBeleaua extends LinearOpMode {
         //state =new ProfileState();
 
         CommandScheduler.getInstance().reset();
-        drive = new SampleMecanumDrive(hardwareMap);
-        SampleMecanumDrive.THREAD_IMU=true;
+        drive = new SampleMecanumDriveNou(hardwareMap);
+        SampleMecanumDriveNou.THREAD_IMU=true;
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         commandScheduler1.getInstance().reset();
 
